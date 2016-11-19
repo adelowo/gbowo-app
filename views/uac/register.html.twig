@@ -1,0 +1,84 @@
+{% extends "master.html.twig" %}
+
+
+{% block content %}
+
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <a class="navbar-brand" href="{{ path_for("dashboard.index") }}">Gbowo</a>
+        <ul class="nav navbar-nav">
+            <li class="active">
+                <a href="#">Gbowo</a>
+            </li>
+            <li>
+                <a href="#">Link</a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="col-md-3">
+
+    </div>
+
+    <div class="col-md-6">
+
+        <div style="margin-top: 120px">
+
+            {% if classic_error %}
+                <div class="alert alert-warning">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <strong>Duplicate record</strong>
+                    <p>An early bird has gotten that email address</p>
+                </div>
+            {% endif %}
+
+            <form method="POST" role="form">
+                <legend>Signup to the Swag store</legend>
+
+                <div class="form-group">
+                    <label for="">Email</label>
+                    <input type="email" class="form-control" name="mail" placeholder="john.doe@gmail.com">
+
+                    {% if errors.mail %}
+                        <p class="errors">{{ errors.mail }}</p>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="">Full Name</label>
+                    <input type="text" class="form-control"
+                           name="fullname"
+                           placeholder="Lanre Adelowo">
+                    {% if errors.fullname %}
+                        <p class="errors">{{ errors.fullname }}</p>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="">Password</label>
+                    <input type="password" class="form-control" name="pass" autocomplete="off">
+                    {% if errors.pass %}
+                        <p class="errors">{{ errors.pass }}</p>
+                    {% endif %}
+                </div>
+
+                {{ csrf_fields | raw }}
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-success">Signup</button>
+                    <p>
+                        Already own an account ?
+                        Click <a href="{{ path_for("app.login") }}" style="color : blue">here to Login</a>
+                    </p>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+    </div>
+
+{% endblock %}
