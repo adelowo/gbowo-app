@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use App\Exception\NotFoundEntityException;
 
 class UserRepository extends AbstractRepository
 {
@@ -17,11 +18,18 @@ class UserRepository extends AbstractRepository
             "updated_at" => $user->getUpdatedAt()
         ];
 
-        if (!$this->findByEmail($user->getEmailAddress()) instanceof User) {
+        try {
+
+            //Throws an exception if the user is not found.
+            //Hence the real db persistence is in the `catch` block.
+            //Seems a little bit fuzzy.
+            $this->findByEmail($user->getEmailAddress());
+
+            return false;
+        } catch (NotFoundEntityException $e) {
+
             return $this->connection->insert("users", $data);
         }
-
-        return false;
     }
 
     public function findByEmail(string $emailAddress)
@@ -32,15 +40,22 @@ class UserRepository extends AbstractRepository
         $statement->execute();
 
         if ($result = $statement->fetch()) {
-            return (new User())->setCreatedAt($result['created_at'])
-                ->setUpdatedAt($result['updated_at'])
-                ->setType($result['type'])
-                ->setPassword(null)
-                ->setFullName($result['fullname'])
-                ->setEmailAddress($result['email']);
+            return $this->prepareUserEntity($result);
         }
 
-        return false;
+        throw new NotFoundEntityException(
+            "Unable to locate a user with the email address"
+        );
+    }
+
+    protected function prepareUserEntity(array $result)
+    {
+        return (new User())->setCreatedAt($result['created_at'])
+            ->setUpdatedAt($result['updated_at'])
+            ->setType($result['type'])
+            ->setPassword($result['password'])
+            ->setFullName($result['fullname'])
+            ->setEmailAddress($result['email']);
     }
 
     public function delete(User $user)
