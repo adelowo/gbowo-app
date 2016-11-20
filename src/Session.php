@@ -12,6 +12,10 @@ use BadMethodCallException;
 class Session
 {
 
+    const USER = "user";
+
+    const ADMIN = "supercow";
+
     protected static $instance = null;
 
     /**
