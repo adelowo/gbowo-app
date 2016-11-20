@@ -1,4 +1,4 @@
-{% extends 'layouts/uac.html.twig' %}
+{% extends "layouts/uac.html.twig" %}
 
 
 {% block content %}
@@ -23,33 +23,25 @@
 
         <div style="margin-top: 120px">
 
-            {% if classic_error %}
+            {% if classic %}
                 <div class="alert alert-warning">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <strong>Duplicate record</strong>
-                    <p>An early bird has gotten that email address</p>
+                	<button type="button" class="close" data-dismiss="alert"
+                            aria-hidden="true">&times;</button>
+                	<strong>Whoops</strong>
+                    <p>
+                        {{ classic }}
+                    </p>
                 </div>
             {% endif %}
 
-            <form method="POST" role="form">
-                <legend>Signup to the Swag store</legend>
+            <form action="" method="post" role="form">
+                <legend>Login to the Swag store</legend>
 
                 <div class="form-group">
                     <label for="">Email</label>
                     <input type="email" class="form-control" name="mail" placeholder="john.doe@gmail.com">
-
                     {% if errors.mail %}
-                        <p class="errors">{{ errors.mail }}</p>
-                    {% endif %}
-                </div>
-
-                <div class="form-group">
-                    <label for="">Full Name</label>
-                    <input type="text" class="form-control"
-                           name="fullname"
-                           placeholder="Lanre Adelowo">
-                    {% if errors.fullname %}
-                        <p class="errors">{{ errors.fullname }}</p>
+                        <p>{{ errors.mail | first }}</p>
                     {% endif %}
                 </div>
 
@@ -57,18 +49,17 @@
                     <label for="">Password</label>
                     <input type="password" class="form-control" name="pass" autocomplete="off">
                     {% if errors.pass %}
-                        <p class="errors">{{ errors.pass }}</p>
+                        <p>{{ errors.pass | first }}</p>
                     {% endif %}
                 </div>
 
                 {{ csrf_fields | raw }}
 
                 <div class="text-center">
-                    <button type="submit" class="btn btn-success">Signup</button>
-                    <p>
-                        Already own an account ?
-                        Click <a href="{{ path_for("app.login") }}" style="color : blue">here to Login</a>
-                    </p>
+                    <button type="submit" name="login" class="btn btn-success">Login</button>
+
+                    <p>Don't have an account yet ? Click
+                        <a href="{{ path_for("app.register") }}" style="color : blue">here to signup</a></p>
                 </div>
 
             </form>
