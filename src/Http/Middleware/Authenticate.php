@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Entity\User;
 use App\Session;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -25,7 +24,7 @@ class Authenticate
          */
         $session = $this->container->get("session");
 
-        if (!$session->has(LOGGED_IN_USER) || (!$session->get("user") instanceof User)) {
+        if (!$session->has(LOGGED_IN_USER) || !$session->get("user")) {
 
             $uri = $request->getUri();
             $previousUri = $uri->getHost() . $uri->getPath() . $uri->getQuery();

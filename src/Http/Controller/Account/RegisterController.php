@@ -60,7 +60,7 @@ class RegisterController extends BaseController
 
                 $this->session->put(LOGGED_IN_USER, true);
                 $this->session->regenerate();
-                $this->session->put("user", $user);
+                $this->session->put("user", json_encode($user));
 
                 return $response->withRedirect(
                     $this->container->get("router")->pathFor("dashboard.index")
