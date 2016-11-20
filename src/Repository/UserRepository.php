@@ -40,7 +40,7 @@ class UserRepository extends AbstractRepository
         $statement->execute();
 
         if ($result = $statement->fetch()) {
-            return $this->prepareUserEntity($result);
+            return $this->loadEntity($result);
         }
 
         throw new NotFoundEntityException(
@@ -48,7 +48,7 @@ class UserRepository extends AbstractRepository
         );
     }
 
-    protected function prepareUserEntity(array $result)
+    protected function loadEntity(array $result)
     {
         return (new User())->setCreatedAt($result['created_at'])
             ->setUpdatedAt($result['updated_at'])
