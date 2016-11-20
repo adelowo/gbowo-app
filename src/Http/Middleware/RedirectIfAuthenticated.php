@@ -7,7 +7,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use Interop\Container\ContainerInterface;
 
-class Authenticate
+class RedirectIfAuthenticated
 {
 
     protected $container;
@@ -24,14 +24,11 @@ class Authenticate
          */
         $session = $this->container->get("session");
 
-        if (!$session->has(LOGGED_IN_USER) || !$session->get("user")) {
-
-            $uri = $request->getUri();
-            $previousUri = $uri->getHost() . $uri->getPath() . $uri->getQuery();
-            $session->put("previous_uri", $previousUri);
-
-            return $response->withRedirect("/login")
-                ->withStatus(302);
+        if ($session->has(LOGGED_IN_USER) && $session->get("user")) {
+            return $response->withRedirect(
+                $this->container->get("router")
+                    ->pathFor("dashboard.index")
+            );
         }
 
         return $next($request, $response);

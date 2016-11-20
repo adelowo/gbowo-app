@@ -43,7 +43,7 @@ class RegisterController extends BaseController
 
             return $response->withRedirect(
                 $this->container->get("router")->pathFor("app.register"),
-                301
+                302
             );
         }
 
