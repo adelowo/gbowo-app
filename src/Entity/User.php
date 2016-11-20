@@ -7,12 +7,12 @@ namespace App\Entity;
  * Class User
  * @package App\Entity
  */
-class User implements \Serializable
+class User implements \JsonSerializable
 {
 
     const ROOT = 1;
 
-    const USER = 0 ;
+    const USER = 0;
 
     /**
      * @var string
@@ -42,31 +42,12 @@ class User implements \Serializable
     /**
      * @var int
      */
-    protected $type ;
+    protected $type;
 
     public function __construct()
     {
         $this->createdAt = \App\formatDateTime(new \DateTime());
         $this->updatedAt = \App\formatDateTime(new \DateTime());
-    }
-
-    /**
-     * @return string
-     */
-    public function getEmailAddress(): string
-    {
-        return $this->emailAddress;
-    }
-
-    /**
-     * @param string $emailAddress
-     * @return User
-     */
-    public function setEmailAddress(string $emailAddress): User
-    {
-        $this->emailAddress = $emailAddress;
-
-        return $this;
     }
 
     /**
@@ -145,24 +126,6 @@ class User implements \Serializable
         return $this;
     }
 
-
-    public function serialize()
-    {
-        return serialize($this) ;
-    }
-
-    public function unserialize($string)
-    {
-        /**
-         * @var User $unserialized
-         */
-        $unserialized = unserialize($string);
-
-        $unserialized->setPassword(null);
-
-        return $unserialized ;
-    }
-
     /**
      * @param int $type
      * @return $this
@@ -174,5 +137,27 @@ class User implements \Serializable
         return $this;
     }
 
+    public function jsonSerialize()
+    {
+        return $this->getEmailAddress();
+    }
 
+    /**
+     * @return string
+     */
+    public function getEmailAddress(): string
+    {
+        return $this->emailAddress;
+    }
+
+    /**
+     * @param string $emailAddress
+     * @return User
+     */
+    public function setEmailAddress(string $emailAddress): User
+    {
+        $this->emailAddress = $emailAddress;
+
+        return $this;
+    }
 }
