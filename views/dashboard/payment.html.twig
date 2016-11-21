@@ -1,0 +1,27 @@
+{% extends "layouts/dashboard.html.twig" %}
+
+{% block content %}
+
+    <div class="row">
+
+        <div class="col-md-6">
+            <p>Pay with Paystack</p>
+            <a
+                    href="{{ path_for('app.charge.adapter', {'adapter' : 'paystack'}) }}"
+                    class="btn btn-info btn-lg">
+                Pay Now
+            </a>
+        </div>
+
+        <div class="col-md-6">
+            <p>Pay with Amplifypay</p>
+            <a
+                    href="{{ path_for('app.charge.adapter', {'adapter' : 'amplifypay'}) }}"
+                    class="btn btn-info btn-lg">
+                Pay Now
+            </a>
+        </div>
+
+    </div>
+
+{% endblock %}
