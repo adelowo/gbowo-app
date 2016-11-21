@@ -16,4 +16,6 @@ abstract class AbstractRepository
     {
         $this->connection = $connection;
     }
+
+    abstract protected function loadEntity(array $result);
 }
