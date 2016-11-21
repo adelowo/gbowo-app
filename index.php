@@ -126,10 +126,10 @@ $app->group("/dashboard", function () use ($app) {
     $app->get("/products[/{name}]", 'App\Http\Controller\User\ProductsController:index')
         ->setName('products.index');
 
-    $app->get("/payment", 'App\Http\Controller\User\PaymentController:index')
+    $app->get("/payment/{productname}/start", 'App\Http\Controller\User\PaymentController:index')
         ->setName('app.charge');
 
-    $app->get("/payment/{adapter}", 'App\Http\Controller\User\PaymentController:charge')
+    $app->post("/payment/{adapter}", 'App\Http\Controller\User\PaymentController:charge')
         ->setName('app.charge.adapter');
 
 })->add($container->get("auth"));

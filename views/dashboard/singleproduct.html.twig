@@ -17,7 +17,7 @@
             </p>
 
             <div class="text-center">
-                <a class="btn btn-lg btn-info" href="{{ path_for("app.charge") }}">Buy Image</a>
+                <a class="btn btn-lg btn-info" href="{{ path_for("app.charge", {'productname' : product.moniker}) }}">Buy Image</a>
             </div>
         </div>
     </div>

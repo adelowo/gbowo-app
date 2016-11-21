@@ -2,23 +2,40 @@
 
 namespace App\Http\Controller\User;
 
+use App\Exception\NotFoundEntityException;
 use App\Http\Controller\BaseController;
+use App\Repository\ProductRepository;
+use Gbowo\GbowoFactory;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
 class PaymentController extends BaseController
 {
 
-    public function index(Request $request, Response $response)
+    public function index(Request $request, Response $response, array $args)
     {
-        return $this->view->render($response, "dashboard/payment.html.twig", [
-            'csrf_field' => \App\generate_csrf_form_fields($request, $this->container->get('csrf'))
-        ]);
+        try {
+
+            $product = (new ProductRepository($this->container->get('db')))->findByMoniker($args['productname']);
+
+            return $this->view->render($response, "dashboard/payment.html.twig", [
+                'csrf_field' => \App\generate_csrf_form_fields($request, $this->container->get('csrf')),
+                'amount' => $product->getPrice()
+            ]);
+
+        } catch (NotFoundEntityException $e) {
+            echo $e->getMessage();
+            die(500);
+        }
     }
 
     public function charge(Request $request, Response $response, array $args)
     {
         $adapterName = $args['adapter'];
 
+        $adapter = (new GbowoFactory())->createAdapter($adapterName);
+
+
+//        return
     }
 }
