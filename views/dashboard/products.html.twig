@@ -1,0 +1,32 @@
+{% extends "layouts/dashboard.html.twig" %}
+
+
+{% block content %}
+
+    <div class="row">
+        {% for product in products %}
+            <div class="col-lg-4 col-md-6">
+
+                <div class="media" style="margin-bottom: 45px">
+
+                    <a class="media-left"
+                       href="{{ path_for("products.index", {'name' : product.moniker}) }}">
+                        <img src="/public/uploads/{{ product.image }}" style="width: 64px; height: 64px;">
+                    </a>
+
+                    <div class="media-body">
+                        <h4 class="media-heading" style="font-weight: bold">
+                            <a href="{{ path_for("products.index", {'name' : product.moniker}) }}">
+                                {{ product.name }}
+                            </a>
+                        </h4>
+
+                        {{ product.description }}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+
+{% endblock %}
