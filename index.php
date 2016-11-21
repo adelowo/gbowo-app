@@ -118,20 +118,20 @@ $app->post("/signup", 'App\Http\Controller\Account\RegisterController:create')
     ->add($isAuthenticatedMiddleware)
     ->add(new \DavidePastore\Slim\Validation\Validation($registrationValidators));
 
-
 $app->group("/dashboard", function () use ($app) {
 
     $app->get("/", 'App\Http\Controller\User\HomeController:home')
         ->setName("dashboard.index");
 
+    $app->get("/products[/{name}]", 'App\Http\Controller\User\ProductsController:index')
+        ->setName('products.index');
+
+    $app->get("/payment", 'App\Http\Controller\User\PaymentController:index')
+        ->setName('app.charge');
+
+    $app->get("/payment/{adapter}", 'App\Http\Controller\User\PaymentController:charge')
+        ->setName('app.charge.adapter');
+
 })->add($container->get("auth"));
-
-
-$app->group("/admin", function () use ($app) {
-
-})
-    ->add($container->get("auth"))
-    ->add(new \App\Http\Middleware\SuperCow($container));
-
 
 $app->run();
