@@ -53,7 +53,7 @@ class UserRepository extends AbstractRepository
         return (new User())->setCreatedAt($result['created_at'])
             ->setUpdatedAt($result['updated_at'])
             ->setType($result['type'])
-            ->setPassword($result['password'])
+            ->setPassword(null)
             ->setFullName($result['fullname'])
             ->setEmailAddress($result['email']);
     }
