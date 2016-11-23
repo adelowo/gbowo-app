@@ -32,7 +32,7 @@ class UserRepository extends AbstractRepository
         }
     }
 
-    public function findByEmail(string $emailAddress)
+    public function findByEmail(string $emailAddress, bool $nullifyPassword = true)
     {
         $statement = $this->connection->prepare("SELECT * FROM users WHERE email = :email");
         $statement->bindValue(":email", $emailAddress);
@@ -40,7 +40,7 @@ class UserRepository extends AbstractRepository
         $statement->execute();
 
         if ($result = $statement->fetch()) {
-            return $this->loadEntity($result);
+            return $this->loadEntity($result, $nullifyPassword);
         }
 
         throw new NotFoundEntityException(
@@ -48,12 +48,12 @@ class UserRepository extends AbstractRepository
         );
     }
 
-    protected function loadEntity(array $result)
+    protected function loadEntity(array $result, bool $nullifyPassword = true)
     {
         return (new User())->setCreatedAt($result['created_at'])
             ->setUpdatedAt($result['updated_at'])
             ->setType($result['type'])
-            ->setPassword(null)
+            ->setPassword(($nullifyPassword) ? null : $result['password'])
             ->setFullName($result['fullname'])
             ->setEmailAddress($result['email']);
     }

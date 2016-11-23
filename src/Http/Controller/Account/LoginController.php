@@ -43,7 +43,8 @@ class LoginController extends BaseController
         try {
 
             $userRepository = new UserRepository($this->container->get("db"));
-            $user = $userRepository->findByEmail($request->getParam("mail"));
+            $nullifyPassword = false;
+            $user = $userRepository->findByEmail($request->getParam("mail"), $nullifyPassword);
 
             if (password_verify($request->getParam("pass"), $user->getPassword())) {
                 $user->setPassword(null); // Still nullify this, even though it is not persisted to session. Users' password cannot be hanging around.
