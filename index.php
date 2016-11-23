@@ -87,7 +87,8 @@ $app->get("/logout", function (
     return $response->withRedirect(
         $container->get("router")->pathFor("app.login")
     );
-});
+})
+    ->setName('app.logout');
 
 $loginValidators = [
     "mail" => v::notBlank()->email(),
