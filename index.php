@@ -133,6 +133,9 @@ $app->group("/dashboard", function () use ($app) {
     $app->post("/payment/{adapter}", 'App\Http\Controller\User\PaymentController:charge')
         ->setName('app.charge.adapter');
 
+    $app->get("/payment/{adapter}/data", 'App\Http\Controller\User\PaymentController:getPaymentData')
+        ->setName('app.payment.data');
+
 })->add($container->get("auth"));
 
 $app->run();
